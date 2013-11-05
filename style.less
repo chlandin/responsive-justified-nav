@@ -75,8 +75,13 @@ a {
         i {
             display: none;
         }
-        li.parent:hover ul {
-            height: auto;
+        li.parent {
+            >a {
+                pointer-events: none;
+            }
+            &:hover ul {
+                height: auto;
+            }
         }
         ul {
             position: absolute;
