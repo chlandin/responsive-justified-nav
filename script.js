@@ -1,34 +1,36 @@
 jQuery(function($){
 
+    function toggleNavVisibility(nav) {
+        var nd = 'nav-down';
 
-    $('#nav-collapse').click(function(e) {
-        e.preventDefault();
-        $('.main_nav').slideToggle();
+        if ($(nav).hasClass(nd)) {
+            $(nav).animate({ height:0 }, 300);
+            setTimeout(function() {
+                $(nav).removeClass(nd).removeAttr('style');
+            }, 320);
+        } else {
+            var newHeight = $(nav).css('height', 'auto').height();
+            $(nav).height(0).animate( { height:newHeight }, 300);
+            setTimeout(function() {
+                $(nav).addClass(nd).removeAttr('style');
+            }, 320);
+        }
+    }
+
+    $('.nav-expand').click(function() {
+        var nav = '.main-nav-list';
+        toggleNavVisibility(nav);
     });
 
-    var child_ul = $('.main_nav .parent ul');
+    $('.parent a').click(function(e) {
+        e.preventDefault();
+        if ($(this).find('i').hasClass('fa-chevron-right')) {
+            $(this).find('i').removeClass('fa-chevron-right').addClass('fa-chevron-down');
+        } else {
+            $(this).find('i').removeClass('fa-chevron-down').addClass('fa-chevron-right');
+        }
+        var nav = $(this).next();
+        toggleNavVisibility(nav);
+    });
 
-    if ( $(window).width() < 768 ) {
-        $('.main_nav .parent>a').click(function(e) {
-            e.preventDefault();
-            if ($(this).next('ul').is(':visible')) {
-                $(this).next('ul').slideToggle();
-                $(this).find('i').removeClass('icon-minus-sign');
-                $(this).find('i').addClass('icon-plus-sign');
-            } else {
-                $(child_ul).slideUp();
-                $(child_ul).parent().find('i').removeClass('icon-minus-sign');
-                $(child_ul).parent().find('i').addClass('icon-plus-sign');
-                $(this).next('ul').slideToggle();
-                $(this).find('i').removeClass('icon-plus-sign');
-                $(this).find('i').addClass('icon-minus-sign');
-            }
-        });
-    }
-
-    if ( $(window).width() >= 768 ) {
-        $('.main_nav .parent>a').click(function(e) {
-            e.preventDefault();
-        });
-    }
 });
